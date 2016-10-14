@@ -1,14 +1,13 @@
 #!/usr/bin/python3
 
 from map import rooms
-from string import punctuation
 import string
 
 
 def remove_punct(text):
     """This function is used to remove all punctuation
     marks from a string. Spaces do not count as punctuation and should
-    not be removed. The funcion takes a string and returns a new string
+    not be removed. The function takes a string and returns a new string
     which does not contain any puctuation. For example:
 
     >>> remove_punct("Hello, World!")
@@ -18,14 +17,16 @@ def remove_punct(text):
     >>> remove_punct(",go!So.?uTh")
     'goSouTh'
     """
-    no_punctuation = ""
+    pass  # The pass statement does nothing. Replace it with the body of your function.
 
-    for char in text:
-        if char not in string.punctuation:
-            no_punctuation = no_punctuation + char
+    clean_text = ""
 
-    return no_punctuation
-        
+    for c in text:
+        if c not in string.punctuation:
+            clean_text += c
+    return clean_text
+
+
 def remove_spaces(text):
     """This function is used to remove leading and trailing spaces from a string.
     It takes a string and returns a new string with does not have leading and
@@ -42,9 +43,10 @@ def remove_spaces(text):
     >>> remove_spaces("   ")
     ''
     """
-    corrected_text = text.strip()
-    
-    return corrected_text
+    pass
+
+    return text.strip()
+
 
 def normalise_input(user_input):
     """This function removes all punctuation, leading and trailing
@@ -58,14 +60,11 @@ def normalise_input(user_input):
     >>> normalise_input("HELP!!!!!!!")
     'help'
     """
-    normalised_text = ""
+    pass
 
-    user_input = remove_punct(user_input)
-    user_input = remove_spaces(user_input)
-    normalised_text = user_input.lower()
+    return remove_spaces(remove_punct(user_input)).lower()
 
-    return normalised_text
-        
+    
 def display_room(room):
     """This function takes a room as an input and nicely displays its name
     and description. The room argument is a dictionary with entries "name",
@@ -86,13 +85,13 @@ def display_room(room):
     Note: <BLANKLINE> here means that doctest should expect a blank line.
     """
     # pass # The pass statement does nothing. Replace it with the body of your function.
-
     print("")
     print(room["name"].upper())
     print("")
     print(room["description"])
     print("")
-    
+
+
 def exit_leads_to(exits, direction):
     """This function takes a dictionary of exits and a direction (a particular
     exit taken from this dictionary). It returns the name of the room into which
@@ -105,8 +104,10 @@ def exit_leads_to(exits, direction):
     >>> exit_leads_to(rooms["Tutor"]["exits"], "west")
     'Reception'
     """
+    pass
 
     return rooms[exits[direction]]["name"]
+    
 
 def print_menu_line(direction, leads_to):
     """This function prints a line of a menu of exits. It takes two strings: a
@@ -121,8 +122,11 @@ def print_menu_line(direction, leads_to):
     >>> print_menu_line("south", "MJ and Simon's room")
     Go SOUTH to MJ and Simon's room.
     """
+    pass
+
     print("Go " + direction.upper() + " to " + leads_to + ".")
-    
+
+
 def print_menu(exits):
     """This function displays the menu of available exits to the player. The
     argument exits is a dictionary of exits as exemplified in map.py. The
@@ -138,17 +142,17 @@ def print_menu(exits):
     Go SOUTH to MJ and Simon's room.
     Where do you want to go?
     """
+    print("You can:")
+
     # COMPLETE THIS PART:
     # Iterate over available exits:
     #     and for each exit print the appropriate menu line
 
-    print("You can:")
-    
-    for key in exits:
-
-       print (print_menu_line (key, exit_leads_to (exits, key)))
-
+    for d, r in exits.items():
+        print_menu_line(d, r)
+    print("")
     print("Where do you want to go?")
+
 
 def is_valid_exit(exits, user_input):
     """This function checks, given a dictionary "exits" (see map.py) and
@@ -166,15 +170,11 @@ def is_valid_exit(exits, user_input):
     >>> is_valid_exit(rooms["Parking"]["exits"], "east")
     True
     """
+    pass
 
-    exit_valid = False
+    return user_input in exits
 
-    for exit in exits:
-        if user_input == exit:
-            exit_valid = True
 
-    return exit_valid
-    
 def menu(exits):
     """This function, given a dictionary of possible exits from a room, prints the
     menu of exits using print_menu() function. It then prompts the player to type
@@ -187,22 +187,20 @@ def menu(exits):
 
     # Repeat until the player enter a valid choice
     while True:
-        while not is_valid_exit(exits, user_input):
-
-            print(print_menu(exits))
-            user_input = input(">")
-            return normalise_input(user_input)
-
-    return user_input
-
+        pass
+        # COMPLETE THIS PART:
+        
         # Display menu
-
+        print_menu(exits)
         # Read player's input
-
+        user_input = input("Enter your input here: ")
         # Normalise the input
-
+        user_input = normalise_input(user_input)
         # Check if the input makes sense (is valid exit)
-            # If so, return the player's choice
+        # If so, return the player's choice
+        if is_valid_exit(exits, user_input):
+            return user_input
+
 
 def move(exits, direction):
     """This function returns the room into which the player will move if, from a
@@ -216,12 +214,13 @@ def move(exits, direction):
     >>> move(rooms["Reception"]["exits"], "west") == rooms["Office"]
     False
     """
+    pass
 
-    room = exits[direction]
-    return rooms[room]
-    
+    if is_valid_exit(exits, direction):
+        return rooms[exits[direction]]
+
+
 # This is the entry point of our program
-
 def main():
     # Start game at the reception
     current_room = rooms["Reception"]
@@ -239,6 +238,7 @@ def main():
 
         # Move the protagonist, i.e. update the current room
         current_room = move(exits, direction)
+
 
 # Are we being run as a script? If so, run main().
 # '__main__' is the name of the scope in which top-level code executes.
